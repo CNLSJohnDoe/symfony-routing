@@ -72,7 +72,12 @@ class Route implements \Serializable
      */
     public function serialize()
     {
-        return serialize(array(
+        return serialize($this->__serialize());
+    }
+
+    public function __serialize()
+    {
+        return array(
             'path' => $this->path,
             'host' => $this->host,
             'defaults' => $this->defaults,
@@ -82,7 +87,7 @@ class Route implements \Serializable
             'methods' => $this->methods,
             'condition' => $this->condition,
             'compiled' => $this->compiled,
-        ));
+        );
     }
 
     /**
@@ -90,7 +95,11 @@ class Route implements \Serializable
      */
     public function unserialize($serialized)
     {
-        $data = unserialize($serialized);
+        $this->__unserialize(unserialize($serialized));
+    }
+
+    public function __unserialize($data)
+    {
         $this->path = $data['path'];
         $this->host = $data['host'];
         $this->defaults = $data['defaults'];
