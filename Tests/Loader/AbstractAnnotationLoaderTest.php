@@ -13,12 +13,17 @@ namespace Symfony\Component\Routing\Tests\Loader;
 
 abstract class AbstractAnnotationLoaderTest extends \PHPUnit_Framework_TestCase
 {
-    public function getReader()
+    public function getReader($methods = [])
     {
-        return $this->getMockBuilder('Doctrine\Common\Annotations\Reader')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
+        $methods = array_unique(array_merge($methods, [
+            'getClassAnnotations',
+            'getClassAnnotation',
+            'getMethodAnnotations',
+            'getMethodAnnotation',
+            'getPropertyAnnotations',
+            'getPropertyAnnotation',
+        ]));
+        return $this->createPartialMock('Doctrine\Common\Annotations\Reader', $methods);
     }
 
     public function getClassLoader($reader)
